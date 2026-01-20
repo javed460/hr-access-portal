@@ -1,0 +1,26 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: hr-access-portal
+  thymeleaf:
+    cache: false
+  security:
+    oauth2:
+      client:
+        registration:
+          keycloak:
+            client-id: hr-portal-client
+            client-secret: YOUR_CLIENT_SECRET
+            scope: openid, profile, email, organization
+            authorization-grant-type: authorization_code
+            redirect-uri: "http://localhost:8083/login/oauth2/code/keycloak"
+        provider:
+          keycloak:
+            issuer-uri: http://localhost:8080/realms/enterprise-hr-realm
+
+# Custom endpoint for the downstream service
+services:
+  employee-service:
+    url: http://localhost:8084/api/employees
